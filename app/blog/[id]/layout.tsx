@@ -37,11 +37,20 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
             type: "article",
             publishedTime: article.created_at || undefined,
             url: `https://www.bludevs.site/blog/${id}`,
+            images: [
+                {
+                    url: `https://www.bludevs.site/api/og?title=${encodeURIComponent(title)}&gradient=${encodeURIComponent(article.gradient || "blue")}`,
+                    width: 1200,
+                    height: 630,
+                    alt: title,
+                }
+            ],
         },
         twitter: {
             card: "summary_large_image",
             title,
             description,
+            images: [`https://www.bludevs.site/api/og?title=${encodeURIComponent(title)}&gradient=${encodeURIComponent(article.gradient || "blue")}`],
         },
     };
 }
