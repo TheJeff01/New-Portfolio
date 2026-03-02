@@ -42,7 +42,7 @@ interface DataStore {
     updateProfile: (data: Partial<Profile>) => Promise<void>;
     refreshData: () => Promise<void>;
     // Storage helpers
-    uploadFile: (bucket: string, path: string, file: File) => Promise<string | null>;
+    uploadFile: (bucket: string, path: string, file: File, onProgress?: (progress: number) => void) => Promise<string | null>;
     deleteFile: (bucket: string, path: string) => Promise<void>;
     getPublicUrl: (bucket: string, path: string) => string;
 }
@@ -283,7 +283,57 @@ export function DataProvider({ children }: { children: ReactNode }) {
     }, [profile.id]);
 
     // ── Storage helpers ──
-    const uploadFile = useCallback(async (bucket: string, path: string, file: File): Promise<string | null> => {
+    const uploadFile = useCallback(async (bucket: string, path: string, file: File, onProgress?: (progress: number) => void): Promise<string | null> => {
+        if (onProgress) {
+            return new Promise(async (resolve, reject) => {
+                const { data: sessionData } = await supabase.auth.getSession();
+                const session = sessionData?.session;
+
+                const xhr = new XMLHttpRequest();
+                const url = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/${bucket}/${path}`;
+
+                xhr.upload.onprogress = (event) => {
+                    if (event.lengthComputable) {
+                        const percentComplete = Math.round((event.loaded / event.total) * 100);
+                        onProgress(percentComplete);
+                    }
+                };
+
+                xhr.onload = () => {
+                    if (xhr.status >= 200 && xhr.status < 300) {
+                        const { data } = supabase.storage.from(bucket).getPublicUrl(path);
+                        resolve(data.publicUrl);
+                    } else {
+                        console.error("Upload error:", xhr.responseText);
+                        resolve(null);
+                    }
+                };
+
+                xhr.onerror = () => {
+                    console.error("Upload error");
+                    resolve(null);
+                };
+
+                xhr.open("POST", url, true);
+                if (session?.access_token) {
+                    xhr.setRequestHeader("Authorization", `Bearer ${session.access_token}`);
+                } else {
+                    xhr.setRequestHeader("Authorization", `Bearer ${process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY}`);
+                }
+
+                const xCustomHeaders = {
+                    "upsert": "true",
+                };
+                xhr.setRequestHeader("x-upsert", "true");
+
+                const formData = new FormData();
+                formData.append("key", file.name);
+                formData.append("file", file);
+
+                xhr.send(formData);
+            });
+        }
+
         const { error } = await supabase.storage.from(bucket).upload(path, file, { upsert: true });
         if (error) { console.error("Upload error:", error); return null; }
         const { data } = supabase.storage.from(bucket).getPublicUrl(path);

@@ -38,6 +38,8 @@ export default function ProjectsAdmin() {
     const [form, setForm] = useState(emptyProject);
     const [techInput, setTechInput] = useState("");
     const [isUploading, setIsUploading] = useState(false);
+    const [uploadProgress, setUploadProgress] = useState<number>(0);
+    const [uploadingType, setUploadingType] = useState<"banner" | "gallery" | null>(null);
     const [itemToDelete, setItemToDelete] = useState<{ id: string, title: string } | null>(null);
 
     const startCreate = () => {
@@ -87,9 +89,13 @@ export default function ProjectsAdmin() {
         if (!file) return;
 
         setIsUploading(true);
+        setUploadingType("banner");
+        setUploadProgress(0);
         try {
             const path = `project-banners/${Date.now()}-${file.name}`;
-            const url = await uploadFile("project-images", path, file);
+            const url = await uploadFile("project-images", path, file, (progress) => {
+                setUploadProgress(progress);
+            });
             if (url) {
                 setForm({ ...form, banner_url: url });
             }
@@ -97,6 +103,8 @@ export default function ProjectsAdmin() {
             console.error("Upload failed", error);
         } finally {
             setIsUploading(false);
+            setUploadingType(null);
+            setUploadProgress(0);
         }
     };
 
@@ -111,13 +119,27 @@ export default function ProjectsAdmin() {
         }
 
         setIsUploading(true);
+        setUploadingType("gallery");
+
+        // Track progress for each file
+        const progresses = new Array(files.length).fill(0);
+        const updateOverallProgress = () => {
+            const total = progresses.reduce((acc, curr) => acc + curr, 0);
+            setUploadProgress(Math.round(total / progresses.length));
+        };
+
         try {
-            const uploadedUrls: string[] = [];
-            for (const file of files) {
+            const uploadPromises = files.map((file, index) => {
                 const path = `project-gallery/${Date.now()}-${file.name}`;
-                const url = await uploadFile("project-images", path, file);
-                if (url) uploadedUrls.push(url);
-            }
+                return uploadFile("project-images", path, file, (progress) => {
+                    progresses[index] = progress;
+                    updateOverallProgress();
+                });
+            });
+
+            const results = await Promise.all(uploadPromises);
+            const uploadedUrls = results.filter((url): url is string => url !== null);
+
             if (uploadedUrls.length > 0) {
                 setForm({ ...form, images: [...currentImages, ...uploadedUrls] });
             }
@@ -125,6 +147,8 @@ export default function ProjectsAdmin() {
             console.error("Gallery upload failed", error);
         } finally {
             setIsUploading(false);
+            setUploadingType(null);
+            setUploadProgress(0);
         }
     };
 
@@ -186,13 +210,20 @@ export default function ProjectsAdmin() {
                         </div>
                         <div className="sm:col-span-2">
                             <label className="mb-1.5 block text-xs font-medium text-text-secondary">Banner Image</label>
-                            <div className="flex items-center gap-4">
-                                {form.banner_url && (
-                                    <Image src={form.banner_url} alt="Banner Preview" width={128} height={64} className="h-16 w-32 object-cover rounded-lg border border-border" />
-                                )}
-                                <div className="flex-1 text-sm">
-                                    <input type="file" accept="image/*" onChange={handleBannerUpload} disabled={isUploading} className="block w-full text-sm text-text-secondary file:mr-4 file:rounded-full file:border-0 file:bg-bg-secondary file:px-4 file:py-2 file:text-sm file:font-semibold file:text-accent hover:file:bg-bg-card-hover" />
+                            <div className="flex flex-col gap-2">
+                                <div className="flex items-center gap-4">
+                                    {form.banner_url && (
+                                        <Image src={form.banner_url} alt="Banner Preview" width={128} height={64} className="h-16 w-32 object-cover rounded-lg border border-border" />
+                                    )}
+                                    <div className="flex-1 text-sm">
+                                        <input type="file" accept="image/*" onChange={handleBannerUpload} disabled={isUploading} className="block w-full text-sm text-text-secondary file:mr-4 file:rounded-full file:border-0 file:bg-bg-secondary file:px-4 file:py-2 file:text-sm file:font-semibold file:text-accent hover:file:bg-bg-card-hover" />
+                                    </div>
                                 </div>
+                                {isUploading && uploadingType === "banner" && (
+                                    <div className="w-full bg-bg-secondary rounded-full h-1.5 mt-2 overflow-hidden">
+                                        <div className="bg-accent h-1.5 rounded-full transition-all duration-300 ease-out" style={{ width: `${uploadProgress}%` }}></div>
+                                    </div>
+                                )}
                             </div>
                         </div>
                         <div className="sm:col-span-2">
@@ -217,7 +248,12 @@ export default function ProjectsAdmin() {
                                         <input type="file" accept="image/*" multiple onChange={handleGalleryUpload} disabled={isUploading} className="block w-full text-sm text-text-secondary file:mr-4 file:rounded-full file:border-0 file:bg-bg-secondary file:px-4 file:py-2 file:text-sm file:font-semibold file:text-accent hover:file:bg-bg-card-hover" />
                                     </div>
                                 )}
-                                {isUploading && <p className="mt-1 text-xs text-text-tertiary focus:outline-none">Uploading asset(s)...</p>}
+                                {isUploading && uploadingType === "gallery" && (
+                                    <div className="w-full bg-bg-secondary rounded-full h-1.5 mt-2 overflow-hidden">
+                                        <div className="bg-accent h-1.5 rounded-full transition-all duration-300 ease-out" style={{ width: `${uploadProgress}%` }}></div>
+                                    </div>
+                                )}
+                                {isUploading && !uploadingType && <p className="mt-1 text-xs text-text-tertiary focus:outline-none">Uploading asset(s)...</p>}
                             </div>
                         </div>
                         <div className="sm:col-span-2">
