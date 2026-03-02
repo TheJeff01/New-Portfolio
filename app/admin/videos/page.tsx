@@ -22,6 +22,7 @@ export default function VideosAdmin() {
     const [creating, setCreating] = useState(false);
     const [form, setForm] = useState(emptyVideo);
     const [isUploading, setIsUploading] = useState(false);
+    const [uploadProgress, setUploadProgress] = useState(0);
     const [itemToDelete, setItemToDelete] = useState<{ id: string, title?: string } | null>(null);
 
     const startCreate = () => { setCreating(true); setEditing(null); setForm(emptyVideo); };
@@ -33,6 +34,7 @@ export default function VideosAdmin() {
         if (!file) return;
 
         setIsUploading(true);
+        setUploadProgress(0);
         try {
             // Calculate video duration locally before upload
             const videoUrlObj = URL.createObjectURL(file);
@@ -49,12 +51,15 @@ export default function VideosAdmin() {
 
                 // Now upload to Supabase
                 const path = `showcase/${Date.now()}-${file.name}`;
-                const url = await uploadFile("videos", path, file);
+                const url = await uploadFile("videos", path, file, (progress) => {
+                    setUploadProgress(progress);
+                });
 
                 if (url) {
                     setForm(prev => ({ ...prev, video_url: url, duration: formattedDuration }));
                 }
                 setIsUploading(false);
+                setUploadProgress(0);
             });
 
             videoElement.addEventListener('error', () => {
@@ -66,6 +71,7 @@ export default function VideosAdmin() {
         } catch (error) {
             console.error("Upload failed", error);
             setIsUploading(false);
+            setUploadProgress(0);
         }
     };
 
@@ -107,9 +113,13 @@ export default function VideosAdmin() {
                                         </div>
                                     </div>
                                 )}
-                                <div className="flex-1 text-sm">
+                                <div className="flex-1 text-sm flex flex-col gap-2">
                                     <input type="file" accept="video/mp4,video/x-m4v,video/*" onChange={handleVideoUpload} disabled={isUploading} className="block w-full text-sm text-text-secondary file:mr-4 file:rounded-full file:border-0 file:bg-bg-secondary file:px-4 file:py-2 file:text-sm file:font-semibold file:text-accent hover:file:bg-bg-card-hover" />
-                                    {isUploading && <p className="mt-1 text-xs text-text-tertiary">Uploading & processing...</p>}
+                                    {isUploading && (
+                                        <div className="w-full bg-bg-secondary rounded-full h-1.5 overflow-hidden">
+                                            <div className="bg-accent h-1.5 rounded-full transition-all duration-300 ease-out" style={{ width: `${uploadProgress}%` }}></div>
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         </div>

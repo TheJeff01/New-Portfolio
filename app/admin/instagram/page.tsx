@@ -11,6 +11,7 @@ import heic2any from "heic2any";
 export default function InstagramAdmin() {
     const { instagram, addInstagramPost, deleteInstagramPost, uploadFile, deleteFile } = useDataStore();
     const [uploading, setUploading] = useState(false);
+    const [uploadProgress, setUploadProgress] = useState(0);
     const [itemToDelete, setItemToDelete] = useState<InstagramPost | null>(null);
 
     const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -25,9 +26,17 @@ export default function InstagramAdmin() {
 
         const filesToUpload = files.slice(0, remainingSlots);
         setUploading(true);
+        setUploadProgress(0);
 
         try {
-            for (let file of filesToUpload) {
+            const progresses = new Array(filesToUpload.length).fill(0);
+            const updateOverallProgress = () => {
+                const total = progresses.reduce((acc, curr) => acc + curr, 0);
+                setUploadProgress(Math.round(total / progresses.length));
+            };
+
+            for (let i = 0; i < filesToUpload.length; i++) {
+                const file = filesToUpload[i];
                 // If the file is HEIC/HEIF, convert it to JPEG first
                 const extension = file.name.split(".").pop()?.toLowerCase();
                 const isHeic = extension === "heic" || extension === "heif";
@@ -55,7 +64,10 @@ export default function InstagramAdmin() {
                 }
 
                 const path = `instagram/${Date.now()}-${uploadName}`;
-                const url = await uploadFile("project-images", path, uploadFilePayload);
+                const url = await uploadFile("project-images", path, uploadFilePayload, (progress) => {
+                    progresses[i] = progress;
+                    updateOverallProgress();
+                });
                 if (url) {
                     await addInstagramPost({
                         gradient: "from-gray-500 to-gray-600",
@@ -69,6 +81,7 @@ export default function InstagramAdmin() {
             console.error("Failed to upload instagram images", error);
         } finally {
             setUploading(false);
+            setUploadProgress(0);
             // reset input
             e.target.value = "";
         }
@@ -112,8 +125,13 @@ export default function InstagramAdmin() {
                     />
                     <button
                         disabled={uploading || instagram.length >= 8}
-                        className="inline-flex items-center gap-2 rounded-xl bg-accent px-4 py-2.5 text-sm font-semibold text-text-inverse hover:bg-accent-hover disabled:opacity-50"
+                        className="inline-flex items-center gap-2 rounded-xl bg-accent px-4 py-2.5 text-sm font-semibold text-text-inverse hover:bg-accent-hover disabled:opacity-50 relative overflow-hidden"
                     >
+                        {uploading && (
+                            <div className="absolute inset-x-0 bottom-0 h-1 bg-white/20">
+                                <div className="h-full bg-white transition-all duration-300 ease-out" style={{ width: `${uploadProgress}%` }}></div>
+                            </div>
+                        )}
                         {uploading ? <Loader2 size={16} className="animate-spin" /> : <Plus size={16} />}
                         {uploading ? "Uploading..." : "Upload Images"}
                     </button>
