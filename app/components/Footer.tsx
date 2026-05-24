@@ -53,8 +53,8 @@ export default function Footer() {
             <div className="footer-content mx-auto flex max-w-7xl flex-col items-center gap-6 px-6 sm:flex-row sm:justify-between">
                 <div className="flex items-center gap-6">
                     <span className="text-sm font-bold text-text-primary">
-                        <span className="gradient-text">Dwayne</span>
-                        <span>Agbale</span>
+                        <span className="gradient-text">Jeff</span>
+                        <span>TheDev</span>
                         <span className="gradient-text">.</span>
                     </span>
                     <div className="hidden h-4 w-px bg-border sm:block" />
@@ -77,7 +77,7 @@ export default function Footer() {
                     </div>
                 </div>
                 <p className="flex items-center gap-1 text-xs text-text-tertiary">
-                    © {new Date().getFullYear()} Dwayne. Built with
+                    © {new Date().getFullYear()} Jeffthedev_. Built with
                     <Heart size={10} className="text-accent" fill="currentColor" />
                 </p>
                 <div className="flex gap-2">

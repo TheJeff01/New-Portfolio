@@ -19,25 +19,21 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.bludevs.site'),
   title: {
-    default: "Dwayne Agbale — UI/UX Designer & Full-Stack Developer",
-    template: "%s | BluDevs",
+    default: "Jeff — Full-Stack Developer & Wordpress Developer",
+    template: "%s | JeffTheDev",
   },
   description:
-    "Multi-disciplinary UI/UX Designer and Full-Stack Developer based in Nigeria. Crafting pixel-perfect interfaces and robust, secure digital experiences.",
+    "Multi-disciplinary Wordpress Developer and Full-Stack Developer based in Nigeria. Crafting pixel-perfect interfaces and robust, secure digital experiences.",
   keywords: [
-    "UI/UX Designer",
+    "Wordpress Developer",
     "Full-Stack Developer",
     "Portfolio",
     "Next.js",
     "React",
     "Nigeria",
   ],
-  icons: {
-    icon: '/logo.svg',
-    apple: '/logo.svg',
-  },
   openGraph: {
-    title: "Dwayne Agbale — UI/UX Designer & Full-Stack Developer",
+    title: "Jeff — Full-Stack Developer & Wordpress Developer",
     description:
       "Multi-disciplinary creative bridging design and engineering. Crafting sleek, secure digital experiences.",
     url: "https://www.bludevs.site",
@@ -46,7 +42,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/og-image.png",
+        url: "/apple-icon.svg",
         width: 1200,
         height: 630,
         alt: "BluDevs Open Graph Image",
@@ -55,9 +51,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: "Dwayne Agbale — UI/UX Designer & Full-Stack Developer",
-    description: "Multi-disciplinary UI/UX Designer and Full-Stack Developer based in Nigeria.",
-    images: ['/og-image.png'],
+    title: "JeffTheDev — Wordpress & Full-Stack Developer",
+    description: "Multi-disciplinary Full-Stack Developer and Wordpress Developer based in Nigeria.",
+    images: ['/apple-icon.svg'],
   },
 };
 

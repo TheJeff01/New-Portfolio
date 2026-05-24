@@ -1,0 +1,9 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <title>Jeffthedev app icon</title>
+  <rect width="512" height="512" fill="#0a0a0a" rx="96"/>
+  <g transform="translate(256, 256)">
+    <polygon points="0,-152 132,-74 132,78 0,152 -132,78 -132,-74" fill="#0a0a0a" stroke="#22c55e" stroke-width="9"/>
+    <polygon points="0,-120 104,-60 104,60 0,120 -104,60 -104,-60" fill="none" stroke="#22c55e" stroke-width="2" opacity="0.4"/>
+    <text text-anchor="middle" y="28" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" font-size="80" font-weight="700" fill="#22c55e">JTD</text>
+  </g>
+</svg>

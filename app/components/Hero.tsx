@@ -143,7 +143,7 @@ export default function Hero() {
                 style={{ willChange: "transform, opacity" }}
             >
                 <Image
-                    src="/profile.png"
+                    src="/jeffthedev.png"
                     alt="Profile Portrait"
                     width={800}
                     height={1200}
@@ -197,7 +197,7 @@ export default function Hero() {
                     >
                         <span className="inline-flex items-center gap-2 rounded-xl border border-border bg-bg-card px-4 py-2 text-sm font-medium text-text-primary">
                             <Palette size={14} className="text-accent" />
-                            UI/UX Designer
+                            Wordpress Developer
                         </span>
                         <span className="inline-flex items-center gap-2 rounded-xl border border-border bg-bg-card px-4 py-2 text-sm font-medium text-text-primary">
                             <Code2 size={14} className="text-accent" />

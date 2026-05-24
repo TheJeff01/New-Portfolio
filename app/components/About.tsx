@@ -185,10 +185,7 @@ export default function About() {
                                 <Briefcase size={12} className="text-accent" />
                                 Freelancer
                             </span>
-                            <span className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-bg-secondary px-3 py-1.5 text-xs font-medium text-text-secondary">
-                                <GraduationCap size={12} className="text-accent" />
-                                Student
-                            </span>
+                            
                         </div>
                     </div>
 

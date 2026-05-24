@@ -7,7 +7,7 @@ import type { Project, ProjectCategory, ProjectStatus } from "@/app/types";
 import { Plus, Pencil, Trash2, X, Check } from "lucide-react";
 import ConfirmModal from "@/app/admin/components/ConfirmModal";
 
-const categoryOptions: ProjectCategory[] = ["UI/UX", "Web Dev", "Mobile Apps", "IoT/Hardware"];
+const categoryOptions: ProjectCategory[] = ["Wordpress", "Web Dev"];
 const statusOptions: ProjectStatus[] = ["Completed", "Ongoing"];
 const gradientOptions = [
     "from-emerald-500 to-teal-600",

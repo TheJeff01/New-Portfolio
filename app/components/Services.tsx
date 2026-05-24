@@ -8,37 +8,37 @@ import { gsap } from "@/app/hooks/useGsap";
 const services = [
     {
         icon: Palette,
-        title: "UI/UX Design",
+        title: "Frontend Development",
         description:
-            "Crafting intuitive, user-centered interfaces through research, wireframing, prototyping, and polished design systems.",
-        skills: ["User Research", "Wireframing", "Prototyping", "Design Systems", "Figma"],
+            "Building responsive, modern web applications with clean UI, smooth interactions, and scalable frontend architecture.",
+        skills: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Framer Motion", "Responsive Design"],
         gradient: "from-pink-500/10 to-rose-500/10",
         iconColor: "text-pink-400",
     },
     {
         icon: Globe,
-        title: "Web Development",
+        title: "WordPress Development",
         description:
-            "Building performant, SEO-friendly web applications with modern frameworks, clean architecture, and responsive layouts.",
-        skills: ["Next.js", "React", "TypeScript", "Node.js", "Tailwind CSS"],
+            "Building high-performance, SEO-optimized WordPress websites with custom themes, clean structure, and responsive design.",
+        skills: ["WordPress", "Divi","Elementor", "PHP", "Custom Themes", "SEO Optimization"],
         gradient: "from-blue-500/10 to-cyan-500/10",
         iconColor: "text-blue-400",
     },
     {
         icon: Smartphone,
-        title: "Mobile Development",
+        title: "Backend Development",
         description:
-            "Creating cross-platform mobile apps with fluid animations, offline support, and native-level performance.",
-        skills: ["React Native", "Flutter", "Expo", "Firebase", "App Store"],
+            "Designing and implementing robust backend systems with scalable architecture, RESTful APIs, and efficient database solutions.",
+        skills: ["Node.js", "Express", "Python", "Django", "PostgreSQL", "MongoDB"],
         gradient: "from-violet-500/10 to-purple-500/10",
         iconColor: "text-violet-400",
     },
     {
         icon: Cpu,
-        title: "IoT & Hardware",
+        title: "Python & Automation",
         description:
-            "Designing embedded systems and IoT solutions — from sensor integration to real-time dashboards and ML models.",
-        skills: ["Arduino", "Raspberry Pi", "Python", "MQTT", "TensorFlow"],
+            "Creating automation scripts, beginner-friendly Python solutions, and educational programming projects.",
+        skills: ["Python", "Automation", "Scripting", "Data Handling", "Teaching"],
         gradient: "from-emerald-500/10 to-green-500/10",
         iconColor: "text-emerald-400",
     },

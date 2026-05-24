@@ -4,10 +4,10 @@ import { useEffect, useRef } from "react";
 import { gsap } from "@/app/hooks/useGsap";
 
 const tools = [
-    "React", "Next.js", "TypeScript", "Tailwind CSS", "Figma",
-    "Node.js", "Python", "Supabase", "Flutter", "Arduino",
+    "React", "Next.js", "TypeScript", "Javascript", "Tailwind CSS", "Figma",
+    "Node.js", "Python", "Supabase", "Arduino",
     "PostgreSQL", "Git", "Framer Motion", "Firebase",
-    "React Native", "TensorFlow", "Canva", "Davinci Resolve", "Swift", "GSAP"
+    "React Native", "TensorFlow",
 ];
 
 export default function LogoStrip() {

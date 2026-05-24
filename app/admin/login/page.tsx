@@ -55,7 +55,7 @@ export default function AdminLogin() {
                 {/* Logo */}
                 <div className="mb-8 text-center">
                     <h1 className="text-2xl font-bold text-text-primary">
-                        <span className="gradient-text">D</span>wayne
+                        <span className="gradient-text">Jeff</span>TheDev
                         <span className="gradient-text">.</span>
                     </h1>
                     <p className="mt-1 text-xs font-medium uppercase tracking-wider text-text-tertiary">

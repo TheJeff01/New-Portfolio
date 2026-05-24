@@ -83,7 +83,7 @@ function mapProjectFromLegacy(p: Record<string, unknown>): Project {
 function mapProfileFromLegacy(p: Record<string, unknown>): Profile {
     return {
         id: (p.id as string) || undefined,
-        name: (p.name as string) || "Dwayne",
+        name: (p.name as string) || "JeffTheDev",
         tagline: (p.tagline as string) || "",
         bio: (p.bio as string) || "",
         location: (p.location as string) || "",
@@ -315,22 +315,14 @@ export function DataProvider({ children }: { children: ReactNode }) {
                 };
 
                 xhr.open("POST", url, true);
-                if (session?.access_token) {
-                    xhr.setRequestHeader("Authorization", `Bearer ${session.access_token}`);
-                } else {
-                    xhr.setRequestHeader("Authorization", `Bearer ${process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY}`);
-                }
-
-                const xCustomHeaders = {
-                    "upsert": "true",
-                };
+                xhr.setRequestHeader(
+                    "Authorization",
+                    `Bearer ${session?.access_token ?? process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY}`
+                );
                 xhr.setRequestHeader("x-upsert", "true");
+                xhr.setRequestHeader("Content-Type", file.type || "application/octet-stream");
 
-                const formData = new FormData();
-                formData.append("key", file.name);
-                formData.append("file", file);
-
-                xhr.send(formData);
+                xhr.send(file);
             });
         }
 

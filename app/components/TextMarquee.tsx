@@ -4,13 +4,13 @@ import { useEffect, useRef } from "react";
 import { gsap } from "@/app/hooks/useGsap";
 
 const topRow = [
-    "DESIGNER", "•", "DEVELOPER", "•", "CREATIVE", "•", "FREELANCER", "•",
-    "DESIGNER", "•", "DEVELOPER", "•", "CREATIVE", "•", "FREELANCER", "•",
+    "PROBLEM SOLVER", "•", "DEVELOPER", "•", "CREATIVE", "•", "FREELANCER", "•",
+    "PROBLEM SOLVER", "•", "DEVELOPER", "•", "CREATIVE", "•", "FREELANCER", "•",
 ];
 
 const bottomRow = [
-    "UI/UX", "✦", "FULL-STACK", "✦", "MOBILE", "✦", "IoT", "✦",
-    "UI/UX", "✦", "FULL-STACK", "✦", "MOBILE", "✦", "IoT", "✦",
+    "WORDPRESS", "✦", "FULL-STACK", "✦", "MOBILE", "✦", "✦",
+    "WORDPRESS", "✦", "FULL-STACK", "✦", "MOBILE", "✦", "✦",
 ];
 
 export default function TextMarquee() {

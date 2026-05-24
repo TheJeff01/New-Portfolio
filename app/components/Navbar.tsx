@@ -48,8 +48,8 @@ export default function Navbar() {
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                 >
-                    <span className="gradient-text">Dwayne</span>
-                    <span>Agbale</span>
+                    <span className="gradient-text">Jeff</span>
+                    <span>TheDev</span>
                     <span className="gradient-text">.</span>
                 </motion.a>
 

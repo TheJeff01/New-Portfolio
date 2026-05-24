@@ -1,4 +1,4 @@
-export type ProjectCategory = "UI/UX" | "Web Dev" | "Mobile Apps" | "IoT/Hardware";
+export type ProjectCategory = "Wordpress" | "Web Dev";
 
 export type ProjectStatus = "Completed" | "Ongoing";
 

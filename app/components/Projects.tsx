@@ -9,7 +9,7 @@ import { gsap } from "@/app/hooks/useGsap";
 import { useDataStore } from "@/app/lib/DataStore";
 import type { Project } from "@/app/types";
 
-const categories = ["All", "UI/UX", "Web Dev", "Mobile Apps", "IoT/Hardware"];
+const categories = ["All", "Wordpress", "Web Dev"];
 
 function ProjectCard({ project }: { project: Project }) {
     return (
