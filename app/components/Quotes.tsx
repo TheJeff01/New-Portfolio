@@ -2,48 +2,10 @@
 
 import { useEffect, useRef } from "react";
 import { gsap } from "@/app/hooks/useGsap";
-
-const quotes = [
-    {
-        text: "Any fool can write code that a computer can understand. Good programmers write code that humans can understand.",
-        author: "Martin Fowler",
-        role: "Software Engineer & Author",
-        accent: "from-emerald-500/10 to-teal-500/10",
-        featured: true,
-    },
-    {
-        text: "First, solve the problem. Then, write the code.",
-        author: "John Johnson",
-        role: "Programmer",
-        accent: "from-violet-500/10 to-purple-500/10",
-    },
-    {
-        text: "Simplicity is the soul of efficiency.",
-        author: "Austin Freeman",
-        role: "Author",
-        accent: "from-blue-500/10 to-cyan-500/10",
-    },
-    {
-        text: "Make it work, make it right, make it fast.",
-        author: "Kent Beck",
-        role: "Software Engineer",
-        accent: "from-amber-500/10 to-orange-500/10",
-    },
-    {
-        text: "The details are not the details. They make the design.",
-        author: "Charles Eames",
-        role: "Designer",
-        accent: "from-pink-500/10 to-rose-500/10",
-    },
-    {
-        text: "Design is not just what it looks like and feels like. Design is how it works.",
-        author: "Steve Jobs",
-        role: "Co-founder, Apple",
-        accent: "from-indigo-500/10 to-blue-500/10",
-    },
-];
+import { useDataStore } from "@/app/lib/DataStore";
 
 export default function Quotes() {
+    const { quotes } = useDataStore();
     const sectionRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -115,8 +77,10 @@ export default function Quotes() {
         return () => ctx.revert();
     }, []);
 
-    const featured = quotes.find((q) => q.featured)!;
+    const featured = quotes.find((q) => q.featured);
     const rest = quotes.filter((q) => !q.featured);
+
+    if (!featured) return null;
 
     return (
         <section ref={sectionRef} id="quotes" className="relative py-32 overflow-hidden">

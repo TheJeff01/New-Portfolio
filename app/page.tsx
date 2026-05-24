@@ -10,6 +10,7 @@ import VideoShowcase from "./components/VideoShowcase";
 import InstagramFeed from "./components/InstagramFeed";
 import Blog from "./components/Blog";
 import Quotes from "./components/Quotes";
+import FAQ from "./components/FAQ";
 import Testimonials from "./components/Testimonials";
 import AvailableForHire from "./components/AvailableForHire";
 import Footer from "./components/Footer";
@@ -30,6 +31,7 @@ export default function Home() {
         <InstagramFeed />
         <Blog />
         <Quotes />
+        <FAQ />
         <Testimonials />
         <AvailableForHire />
       </main>

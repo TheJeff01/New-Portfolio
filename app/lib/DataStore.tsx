@@ -8,6 +8,7 @@ import type {
     InstagramPost,
     BlogArticle,
     Testimonial,
+    Quote,
     Profile,
 } from "@/app/types";
 
@@ -21,6 +22,7 @@ interface DataStore {
     instagram: InstagramPost[];
     blog: BlogArticle[];
     testimonials: Testimonial[];
+    quotes: Quote[];
     profile: Profile;
     loading: boolean;
     // CRUD operations
@@ -39,6 +41,9 @@ interface DataStore {
     addTestimonial: (testimonial: Omit<Testimonial, "id">) => Promise<void>;
     updateTestimonial: (id: string, data: Partial<Testimonial>) => Promise<void>;
     deleteTestimonial: (id: string) => Promise<void>;
+    addQuote: (quote: Omit<Quote, "id">) => Promise<void>;
+    updateQuote: (id: string, data: Partial<Quote>) => Promise<void>;
+    deleteQuote: (id: string) => Promise<void>;
     updateProfile: (data: Partial<Profile>) => Promise<void>;
     refreshData: () => Promise<void>;
     // Storage helpers
@@ -116,6 +121,7 @@ export function DataProvider({ children }: { children: ReactNode }) {
     const [instagram, setInstagram] = useState<InstagramPost[]>([]);
     const [blog, setBlog] = useState<BlogArticle[]>([]);
     const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
+    const [quotes, setQuotes] = useState<Quote[]>([]);
     const [profile, setProfile] = useState<Profile>(mapProfileFromLegacy(defaultProfile as unknown as Record<string, unknown>));
     const [loading, setLoading] = useState(true);
 
@@ -130,6 +136,7 @@ export function DataProvider({ children }: { children: ReactNode }) {
                 { data: igData },
                 { data: blogData },
                 { data: testiData },
+                { data: quotesData },
                 { data: profileData },
             ] = await Promise.all([
                 supabase.from("projects").select("*").order("sort_order", { ascending: true }),
@@ -137,6 +144,7 @@ export function DataProvider({ children }: { children: ReactNode }) {
                 supabase.from("instagram_posts").select("*").order("sort_order", { ascending: true }),
                 supabase.from("blog_articles").select("*").order("sort_order", { ascending: true }),
                 supabase.from("testimonials").select("*").order("sort_order", { ascending: true }),
+                supabase.from("quotes").select("*").order("sort_order", { ascending: true }),
                 supabase.from("profile").select("*").limit(1).single(),
             ]);
 
@@ -145,6 +153,7 @@ export function DataProvider({ children }: { children: ReactNode }) {
             if (igData) setInstagram(igData as InstagramPost[]);
             if (blogData) setBlog(blogData.map((a) => mapBlogArticleFromLegacy(a as unknown as Record<string, unknown>)));
             if (testiData) setTestimonials(testiData as Testimonial[]);
+            if (quotesData) setQuotes(quotesData as Quote[]);
             if (profileData) setProfile(mapProfileFromLegacy(profileData as unknown as Record<string, unknown>));
         } catch (err) {
             console.error("Failed to fetch data from Supabase:", err);
@@ -270,9 +279,30 @@ export function DataProvider({ children }: { children: ReactNode }) {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
+    // ── Quotes CRUD ──
+    const addQuote = useCallback(async (quote: Omit<Quote, "id">) => {
+        const { data, error } = await supabase.from("quotes").insert(quote).select().single();
+        if (error) { console.error("addQuote error:", error); return; }
+        setQuotes((prev) => [...prev, data as Quote]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    const updateQuote = useCallback(async (id: string, data: Partial<Quote>) => {
+        const { error } = await supabase.from("quotes").update(data).eq("id", id);
+        if (error) { console.error("updateQuote error:", error); return; }
+        setQuotes((prev) => prev.map((q) => (q.id === id ? { ...q, ...data } : q)));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    const deleteQuote = useCallback(async (id: string) => {
+        const { error } = await supabase.from("quotes").delete().eq("id", id);
+        if (error) { console.error("deleteQuote error:", error); return; }
+        setQuotes((prev) => prev.filter((q) => q.id !== id));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
     // ── Profile ──
     const updateProfileFn = useCallback(async (data: Partial<Profile>) => {
-        // Get existing profile ID
         const profileId = profile.id;
         if (profileId) {
             const { error } = await supabase.from("profile").update({ ...data, updated_at: new Date().toISOString() }).eq("id", profileId);
@@ -353,6 +383,7 @@ export function DataProvider({ children }: { children: ReactNode }) {
                 instagram,
                 blog,
                 testimonials,
+                quotes,
                 profile,
                 loading,
                 addProject,
@@ -370,6 +401,9 @@ export function DataProvider({ children }: { children: ReactNode }) {
                 addTestimonial,
                 updateTestimonial,
                 deleteTestimonial,
+                addQuote,
+                updateQuote,
+                deleteQuote,
                 updateProfile: updateProfileFn,
                 refreshData,
                 uploadFile,

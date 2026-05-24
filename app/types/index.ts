@@ -76,6 +76,17 @@ export interface Testimonial {
   created_at?: string;
 }
 
+export interface Quote {
+  id: string;
+  text: string;
+  author: string;
+  role: string;
+  accent: string;
+  featured: boolean;
+  sort_order?: number;
+  created_at?: string;
+}
+
 export interface SocialLink {
   name: string;
   url: string;

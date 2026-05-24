@@ -11,6 +11,7 @@ import {
     Instagram,
     FileText,
     MessageSquareQuote,
+    Quote,
     User,
     ChevronLeft,
     ChevronRight,
@@ -26,6 +27,7 @@ const navItems = [
     { label: "Instagram", href: "/admin/instagram", icon: Instagram },
     { label: "Blog", href: "/admin/blog", icon: FileText },
     { label: "Testimonials", href: "/admin/testimonials", icon: MessageSquareQuote },
+    { label: "Quotes", href: "/admin/quotes", icon: Quote },
     { label: "Profile", href: "/admin/profile", icon: User },
 ];
 
