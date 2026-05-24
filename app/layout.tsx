@@ -17,7 +17,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://www.bludevs.site'),
+  metadataBase: new URL('https://jeffthedev.vercel.app'),
   title: {
     default: "Jeff — Full-Stack Developer & Wordpress Developer",
     template: "%s | JeffTheDev",
@@ -36,8 +36,8 @@ export const metadata: Metadata = {
     title: "Jeff — Full-Stack Developer & Wordpress Developer",
     description:
       "Multi-disciplinary creative bridging design and engineering. Crafting sleek, secure digital experiences.",
-    url: "https://www.bludevs.site",
-    siteName: "BluDevs",
+    url: "https://jeffthedev.vercel.app",
+    siteName: "JeffTheDev",
     locale: "en_US",
     type: "website",
     images: [

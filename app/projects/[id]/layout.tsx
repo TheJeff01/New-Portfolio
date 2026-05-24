@@ -24,8 +24,8 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
         };
     }
 
-    const title = `${project.title} | BluDevs Portfolio`;
-    const description = project.description || `View the ${project.title} case study on BluDevs.`;
+    const title = `${project.title} | JeffTheDev Portfolio`;
+    const description = project.description || `View the ${project.title} case study on JeffTheDev.`;
     const images = project.banner_url ? [project.banner_url] : [];
 
     return {
@@ -35,7 +35,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
             title,
             description,
             type: "website",
-            url: `https://www.bludevs.site/projects/${id}`,
+            url: `https://jeffthedev.vercel.app/projects/${id}`,
             images: images.length > 0 ? images : undefined,
         },
         twitter: {

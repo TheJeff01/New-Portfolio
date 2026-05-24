@@ -101,7 +101,7 @@ export async function GET(request: Request) {
                                     fontWeight: 700,
                                     color: '#f4f4f5',
                                 }}>
-                                    bludevs.site
+                                    jeffthedev.vercel.app
                                 </div>
                             </div>
                         </div>

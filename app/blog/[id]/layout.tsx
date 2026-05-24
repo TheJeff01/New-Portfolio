@@ -25,8 +25,8 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
         };
     }
 
-    const title = `${article.title} | BluDevs Blog`;
-    const description = article.excerpt || `Read ${article.title} on BluDevs.`;
+    const title = `${article.title} | JeffTheDev Blog`;
+    const description = article.excerpt || `Read ${article.title} on JeffTheDev.`;
 
     return {
         title,
@@ -36,10 +36,10 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
             description,
             type: "article",
             publishedTime: article.created_at || undefined,
-            url: `https://www.bludevs.site/blog/${id}`,
+            url: `https://jeffthedev.vercel.app/blog/${id}`,
             images: [
                 {
-                    url: `https://www.bludevs.site/api/og?title=${encodeURIComponent(title)}&gradient=${encodeURIComponent(article.gradient || "blue")}`,
+                    url: `https://jeffthedev.vercel.app/api/og?title=${encodeURIComponent(title)}&gradient=${encodeURIComponent(article.gradient || "blue")}`,
                     width: 1200,
                     height: 630,
                     alt: title,
@@ -50,7 +50,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
             card: "summary_large_image",
             title,
             description,
-            images: [`https://www.bludevs.site/api/og?title=${encodeURIComponent(title)}&gradient=${encodeURIComponent(article.gradient || "blue")}`],
+            images: [`https://jeffthedev.vercel.app/api/og?title=${encodeURIComponent(title)}&gradient=${encodeURIComponent(article.gradient || "blue")}`],
         },
     };
 }

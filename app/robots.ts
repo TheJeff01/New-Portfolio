@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
             allow: '/',
             disallow: ['/admin/'],
         },
-        sitemap: 'https://www.bludevs.site/sitemap.xml',
+        sitemap: 'https://jeffthedev.vercel.app/sitemap.xml',
     }
 }
